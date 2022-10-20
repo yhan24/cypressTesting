@@ -166,5 +166,13 @@
   },
   "author": "",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yhan24/cypressTesting.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yhan24/cypressTesting/issues"
+  },
+  "homepage": "https://github.com/yhan24/cypressTesting#readme",
   "description": ""
 }
