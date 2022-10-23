@@ -1,15 +1,13 @@
-const { number } = require("assert-plus");
-const { eq } = require("lodash");
+/// <reference types = "cypress" />
 
-describe('empty spec', () => {
-  it('passes', () => {
-    cy.visit('https://example.cypress.io')
-  })
-});
+//import { eq } from "lodash";
 
 describe('Test Course Manager System', () => {
+  beforeEach(() =>{
+    cy.visit('/');
+  });
+
   it('Case1: HomePage has a logo', ()=>{
-    cy.visit('https://cms-lyart.vercel.app/');
     cy.get('#logo');
   });
 
@@ -18,16 +16,17 @@ describe('Test Course Manager System', () => {
   });
 
   it('Case3: Navigation bar always on top', ()=>{
-    //cy.visit('https://cms-lyart.vercel.app/');
     cy.get('.container').should('be.visible');
     cy.get('.info').contains('The best learning methods').should('be.visible');
+    cy.get('.info p').contains('Sed ut').should('be.visible');
     cy.scrollTo('bottom');
     cy.get('.container').should('be.visible');
   });
 
   it('Case4: Jump to Events Page', ()=>{
     cy.get('#menu a').contains('Events').click();
-    cy.url().should('eq',cy.config().baseUrl +'events');
+    cy.url().should('eq',cy.config().baseUrl+'events');
+    cy.url().should('eq',Cypress.config().baseUrl+'events');
   });
 
   it('Case5: Click Logo back to Main Page', ()=>{

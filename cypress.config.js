@@ -5,9 +5,6 @@ module.exports = defineConfig({
     baseUrl: 'https://cms-lyart.vercel.app/',
     setupNodeEvents(on, config) {
       // implement node event listeners here
-    },
-  },
-  timeouts:{
-    execTimeout: 50000
+    }
   }
 });
