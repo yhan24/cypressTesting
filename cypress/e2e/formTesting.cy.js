@@ -62,6 +62,13 @@ describe('Assignment #3 Form Testing', () => {
     it('Case4-3: Login function - Manager', function () {
         loginTest("manager@admin.com","111111","Manager");
     });
+    it('Case4-4: Login function - failed', function () {
+        loginTest("teacher@admin.com","000000","Teacher");
+    });
+    it('Case4-5: Login function - failed', function () {
+        loginTest("teacher@admin.com","111111","Student");
+    });
+
 
     function loginTest(userName,passWord,loginRole){
         cy.visit('login');
@@ -73,7 +80,7 @@ describe('Assignment #3 Form Testing', () => {
             .then($body =>{
                 if($body.find('.ant-message').has('unknown error'))
                     return console.log("unknown error, login failed");
-                if($body.find('.ant-message').has('Please check your password or email'))
+                else if($body.find('.ant-message').has('Please check your password or email'))
                     return console.log("Invalid combination, login failed");
             });
         cy.wait(2000);
