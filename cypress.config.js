@@ -1,3 +1,5 @@
+/// <reference types = "cypress" />
+
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
