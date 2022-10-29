@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+require ('cypress-xpath')
 
 declare namespace Cypress {
     interface Chainable<Subject = any> {
@@ -23,4 +24,15 @@ declare namespace Cypress {
     interface Chainable<Subject = string> {
         logout(): Chainable<Element>;
     }
+    interface Chainable<Subject = string>{
+        timeStamp(): Chainable<Element>;
+    }
 }
+
+const resizeObserverLoopErrRe = /^[^(ResizeObserver loop limit exceeded)]/
+Cypress.on('uncaught:exception', (err) => {
+    /* returning false here prevents Cypress from failing the test */
+    if (resizeObserverLoopErrRe.test(err.message)) {
+        return false
+    }
+})

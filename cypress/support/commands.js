@@ -65,3 +65,9 @@ Cypress.Commands.add("logout",()=>{
     cy.get('.ant-dropdown-menu-item').contains('Logout').click();
     localStorage.debug = 'cypress:*';
 });
+
+Cypress.Commands.add("timeStamp",()=>{
+   const date = Date.now();
+   const timeStamp = Math.floor(Math.random() * date);
+   return new Date(timeStamp);
+});
