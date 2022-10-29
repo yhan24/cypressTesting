@@ -23,3 +23,42 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+Cypress.Commands.add("loginFunction", (userName,passWord,loginRole) => {
+    cy.visit('login');
+    cy.get('#login_role').contains(loginRole).click();
+    cy.get('input[type="email"').type(userName);
+    cy.get('input[type="password"').type(passWord);
+    cy.contains('button', 'Sign in').click()
+});
+
+
+Cypress.Commands.add("loginSuccess",(loginRole) =>{
+    cy.url().should('eq', Cypress.config().baseUrl + 'dashboard');
+    cy.get('body')
+        .then($body =>{
+            if($body.find('.ant-message').has('unknown error'))
+                return console.log("unknown error, login failed");
+            else if($body.find('.ant-message').has('Please check your password or email'))
+                return console.log("Invalid combination, login failed");
+        });
+    cy.wait(2000);
+    cy.url().should('contain',Cypress.config().baseUrl+'dashboard/');
+    console.log(loginRole + "login successfully")
+    cy.get('#contentLayout > header > div > span.style__HeaderIcon-i6pof4-0.qabPo > span').click();
+    cy.get('.ant-dropdown-menu-item').contains('Logout').click();
+    localStorage.debug = 'cypress:*';
+});
+
+Cypress.Commands.add("loginFailed",()=>{
+    cy.wait(2000);
+    cy.url().should('eq', Cypress.config().baseUrl +'login');
+    cy.get('body')
+        .then($body =>{
+            if($body.find('.ant-message').has('unknown error'))
+                return console.log("unknown error, login failed");
+            else if($body.find('.ant-message').has('Please check your password or email'))
+                return console.log("Invalid combination, login failed");
+        });
+    console.log("login failed, still in login page")
+    localStorage.debug = 'cypress:*';
+});
