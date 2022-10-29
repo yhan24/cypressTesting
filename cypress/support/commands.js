@@ -44,9 +44,6 @@ Cypress.Commands.add("loginSuccess",(loginRole) =>{
     cy.wait(2000);
     cy.url().should('contain',Cypress.config().baseUrl+'dashboard/');
     console.log(loginRole + "login successfully")
-    cy.get('#contentLayout > header > div > span.style__HeaderIcon-i6pof4-0.qabPo > span').click();
-    cy.get('.ant-dropdown-menu-item').contains('Logout').click();
-    localStorage.debug = 'cypress:*';
 });
 
 Cypress.Commands.add("loginFailed",()=>{
@@ -60,5 +57,11 @@ Cypress.Commands.add("loginFailed",()=>{
                 return console.log("Invalid combination, login failed");
         });
     console.log("login failed, still in login page")
+    localStorage.debug = 'cypress:*';
+});
+
+Cypress.Commands.add("logout",()=>{
+    cy.get('#contentLayout > header > div > span.style__HeaderIcon-i6pof4-0.qabPo > span').click();
+    cy.get('.ant-dropdown-menu-item').contains('Logout').click();
     localStorage.debug = 'cypress:*';
 });

@@ -12,12 +12,15 @@ declare namespace Cypress {
 
 declare namespace Cypress {
     interface Chainable<Subject = string> {
-        loginFunction(string, string, string): Chainable<Element>;
+        loginFunction(userName, passWord, role): Chainable<Element>;
     }
     interface Chainable<Subject = string> {
-        loginSuccess(string): Chainable<Element>;
+        loginSuccess(role): Chainable<Element>;
     }
     interface Chainable<Subject = string> {
         loginFailed(): Chainable<Element>;
+    }
+    interface Chainable<Subject = string> {
+        logout(): Chainable<Element>;
     }
 }

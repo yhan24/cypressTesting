@@ -55,15 +55,18 @@ describe('Assignment #3 Form Testing', () => {
 
     it('Case4-1: Login function - Student', function () {
         cy.loginFunction("student@admin.com","111111","Student");
-        cy.loginSuccess("Student");
+        cy.loginSuccess("Student")
+        cy.logout();
     });
     it('Case4-2: Login function - Teacher', function () {
         cy.loginFunction("teacher@admin.com","111111","Teacher");
         cy.loginSuccess("Teacher");
+        cy.logout();
     });
     it('Case4-3: Login function - Manager', function () {
         cy.loginFunction("manager@admin.com","111111","Manager");
         cy.loginSuccess("Manager");
+        cy.logout();
     });
     it('Case5-1: Login function - failed', function () {
         cy.loginFunction("teacher@admin.com","000000","Teacher");
