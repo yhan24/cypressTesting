@@ -55,26 +55,38 @@ describe('Assignment #3 Form Testing', () => {
 
     it('Case4-1: Login function - Student', function () {
         cy.loginFunction("student@admin.com","111111","Student");
-        cy.loginSuccess("Student")
+        cy.url().should('contain',Cypress.config().baseUrl+'dashboard/student');
         cy.logout();
     });
     it('Case4-2: Login function - Teacher', function () {
         cy.loginFunction("teacher@admin.com","111111","Teacher");
-        cy.loginSuccess("Teacher");
+        cy.url().should('contain',Cypress.config().baseUrl+'dashboard/teacher');
         cy.logout();
     });
     it('Case4-3: Login function - Manager', function () {
         cy.loginFunction("manager@admin.com","111111","Manager");
-        cy.loginSuccess("Manager");
+        cy.url().should('contain',Cypress.config().baseUrl+'dashboard/manager');
         cy.logout();
     });
     it('Case5-1: Login function - failed', function () {
         cy.loginFunction("teacher@admin.com","000000","Teacher");
-        cy.loginFailed();
+        cy.get('body')
+            .then($body =>{
+                if($body.find('.ant-message').has('unknown error'))
+                    return console.log("unknown error, login failed");
+                else if($body.find('.ant-message').has('Please check your password or email'))
+                    return console.log("Invalid combination, login failed");
+            });
     });
     it('Case5-2: Login function - failed', function () {
         cy.loginFunction("teacher@admin.com","111111","Student");
-        cy.loginFailed();
+        cy.get('body')
+            .then($body =>{
+                if($body.find('.ant-message').has('unknown error'))
+                    return console.log("unknown error, login failed");
+                else if($body.find('.ant-message').has('Please check your password or email'))
+                    return console.log("Invalid combination, login failed");
+            });
     });
 
 });

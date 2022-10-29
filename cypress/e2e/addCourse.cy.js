@@ -1,6 +1,7 @@
 /// <reference types = "cypress" />
+import {Manager} from "listr2";
+
 require('cypress-xpath')
-require('dayjs')
 import {addDays, format} from 'date-fns';
 import {round} from "lodash";
 
@@ -12,8 +13,10 @@ describe(("Add new Course"), () => {
     });
 
     it('Login Manager', function () {
+        //Login function
         cy.loginFunction('manager@admin.com', '111111', 'Manager');
-        cy.loginSuccess('Manager');
+        //Verify login successfully
+        cy.url().should('contain',Cypress.config().baseUrl+'dashboard/manager');
         cy.get('#__next').contains('Course').click();
         cy.get('#Course_3\\$Menu > li:nth-child(2) > span:nth-child(2) > a').click();
         //1-1.CourseName
@@ -74,8 +77,8 @@ describe(("Add new Course"), () => {
                 cy.get('.ant-picker-time-panel-column').eq(1).contains('1').scrollIntoView().click();
                 cy.contains('button', 'Ok').click();
             });
-        //cy.contains('button', 'Add Class Time').click()
-        /*//Second one
+        cy.contains('button', 'Add Class Time').click()
+        //Second one
         cy.get('#schedule .ant-select-selector').eq(1).click()
             .then(() => {
                 cy.get('.ant-select-item').contains('Tuesday').click();
@@ -86,7 +89,6 @@ describe(("Add new Course"), () => {
                 cy.contains('button', 'Add Class Time').click()
             });
 
-         */
         cy.contains('button', 'Submit').click();
         //3.Successfully Create Course
         cy.get('#contentLayout > main > div:nth-child(4) > div > div.ant-result-title').should('have.text','Successfully Create Course!');
