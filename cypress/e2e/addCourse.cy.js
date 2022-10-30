@@ -1,5 +1,4 @@
 /// <reference types = "cypress" />
-import {Manager} from "listr2";
 
 require('cypress-xpath')
 import {addDays, format} from 'date-fns';
@@ -17,6 +16,7 @@ describe(("Add new Course"), () => {
         cy.loginFunction('manager@admin.com', '111111', 'Manager');
         //Verify login successfully
         cy.url().should('contain',Cypress.config().baseUrl+'dashboard/manager');
+        //Add new course
         cy.get('#__next').contains('Course').click();
         cy.get('#Course_3\\$Menu > li:nth-child(2) > span:nth-child(2) > a').click();
         //1-1.CourseName
@@ -44,11 +44,11 @@ describe(("Add new Course"), () => {
         cy.get('#price').type(`${randomNumber}`);
         //1-6.Student Limit
         cy.get('#maxStudents').type('1').then(() => {
-            cy.get('#contentLayout span.ant-input-number-handler.ant-input-number-handler-up').click({multiple: true});
+            cy.get('#contentLayout span.ant-input-number-handler.ant-input-number-handler-up').eq(1).click();
             expect(cy.get('#maxStudents').should('have.value', 2));
         });
         //1-7.Duration
-        //------------//
+        cy.get('input[role="spinbutton"]').eq(2).type('2');
         //1-8.Description
         cy.get('#detail').type("Description length must between 100 - 1000 characters.\n" +
             "Description length must between 100 - 1000 characters.\n" + `${Date.now()}`);
@@ -81,12 +81,13 @@ describe(("Add new Course"), () => {
         //Second one
         cy.get('#schedule .ant-select-selector').eq(1).click()
             .then(() => {
-                cy.get('.ant-select-item').contains('Tuesday').click();
+                cy.get('.ant-select-dropdown:not(.ant-select-dropdown-hidden) .ant-select-item')
+                    .contains('Tuesday')
+                    .click();
             });
         cy.get('#schedule_classTime_1_time').should('have.attr', 'placeholder', 'Select time').click()
             .then(() => {
-                cy.get('.ant-picker-now-btn').contains('Now').click({force:true});
-                cy.contains('button', 'Add Class Time').click()
+                cy.get('.ant-picker-dropdown:not(.ant-picker-dropdown-hidden)').contains('Now').click();
             });
 
         cy.contains('button', 'Submit').click();
