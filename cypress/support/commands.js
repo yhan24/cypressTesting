@@ -23,8 +23,17 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+import {addMatchImageSnapshotCommand} from 'cypress-image-snapshot/command';
 
-Cypress.Commands.add("loginFunction", (userName,passWord,loginRole) => {
+addMatchImageSnapshotCommand({
+    failureThreshold: 0.0,
+    failureThresholdType: 'percent',
+    customDiffConfig: {threshold: 0.0},
+    capture: 'viewport',
+});
+import 'happo-cypress';
+
+Cypress.Commands.add("loginFunction", (userName, passWord, loginRole) => {
     cy.visit('login');
     cy.get('#login_role').contains(loginRole).click();
     cy.get('input[type="email"').type(userName);
@@ -33,7 +42,7 @@ Cypress.Commands.add("loginFunction", (userName,passWord,loginRole) => {
 });
 
 
-Cypress.Commands.add("logout",()=>{
+Cypress.Commands.add("logout", () => {
     cy.get('#contentLayout > header > div > span.style__HeaderIcon-i6pof4-0.qabPo > span').click();
     cy.get('.ant-dropdown-menu-item').contains('Logout').click();
     localStorage.debug = 'cypress:*';

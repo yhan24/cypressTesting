@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 require ('cypress-xpath')
+import "@applitools/eyes-cypress"
+import "@percy/cypress"
 
 declare namespace Cypress {
     interface Chainable<Subject = any> {
