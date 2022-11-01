@@ -20,6 +20,9 @@ declare namespace Cypress {
     interface Chainable<Subject = string> {
         logout(): Chainable<Element>;
     }
+    interface Chainable<Subject = string> {
+        loginApi(userName, passWord, role): Chainable<Element>;
+    }
 
 }
 

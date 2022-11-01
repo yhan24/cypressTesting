@@ -24,6 +24,8 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import {addMatchImageSnapshotCommand} from 'cypress-image-snapshot/command';
+import {AES} from 'crypto-js';
+import "cypress-localstorage-commands";
 
 addMatchImageSnapshotCommand({
     failureThreshold: 0.0,
@@ -40,7 +42,29 @@ Cypress.Commands.add("loginFunction", (userName, passWord, loginRole) => {
     cy.get('input[type="password"').type(passWord);
     cy.contains('button', 'Sign in').click()
 });
-
+//commands.js
+Cypress.Commands.add("loginApi", (userName, passWord, loginRole) => {
+    context('GET login auth token', () => {
+        const pwd = AES.encrypt(passWord, 'cms').toString();
+        const payload = {
+            method: 'POST',
+            url: `${Cypress.env().apiUrl}login`,
+            body: {
+                email: userName,
+                password: pwd,
+                role: loginRole,
+            },
+        };
+        cy.request(payload).then((res) => {
+            expect(res.status).eq(201);
+            const accessToken = res.body.data.token;
+            window.localStorage.setItem('authToken', res.body.data.token);
+            //window.localStorage.setItem('authToken',JSON.stringify(accessToken));
+            cy.saveLocalStorage('authToken');
+            console.log("Token in Commands: " + window.localStorage.getItem('authToken'));
+        });
+    })
+});
 
 Cypress.Commands.add("logout", () => {
     cy.get('#contentLayout > header > div > span.style__HeaderIcon-i6pof4-0.qabPo > span').click();
