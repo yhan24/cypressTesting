@@ -1,19 +1,18 @@
 /// <reference types = "cypress" />
 //asign4_apiTesting.cy.js
-before(()=>{
-    console.log(cy.loginApi('student@admin.com','111111','student'));
-    cy.window().its('localStorage').then(($el)=>{
-        const token = localStorage.getItem('authToken');
-        console.log('The token in window: ' + token);
-    })
-    console.log(cy.getLocalStorage('authToken'));
-});
-
 describe(('API Testing'),()=>{
+    var token = '';
+    before(()=>{
+        cy.clearLocalStorage();
+        cy.loginApi('student@admin.com','111111','student');
+        cy.window().its('localStorage').then(($el)=>{
+            token = localStorage.getItem('authToken');
+        })
+    });
+
     context('GET Auth',()=>{
         it('GET /api/userRole',  ()=> {
-           console.log("API Testing" + ``);
-           const authorization = `${token}`;
+           const authorization = "Bearer "+`${token}`;
            const payload = {
                method: 'GET',
                url: `${Cypress.env().apiUrl}userRole`,
@@ -21,11 +20,26 @@ describe(('API Testing'),()=>{
            };
            cy.request(payload).then((res)=>{
                expect(res.status).eq(200);
-               const data = res.body.data;
+               const data = res.body;
                expect(data.msg).eq('success');
            });
         });
+    });
+    context('POST Users',()=>{
+        it('POST /api/signup',()=>{
+           const authorization = "Bearer "+ `${token}`;
+           const payload = {
+             method: 'POST',
+             url: `${Cypress.env().apiUrl}signup`,
+               // headers: {
+               //   Content-Type: 'application/json'},
+             email: 'student1'+'@admin.com',
+             password: '111111',
+             role: 'student'
+           };
+           console.log(payload);
 
+        });
     });
 
 });

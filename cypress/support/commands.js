@@ -44,7 +44,7 @@ Cypress.Commands.add("loginFunction", (userName, passWord, loginRole) => {
 });
 //commands.js
 Cypress.Commands.add("loginApi", (userName, passWord, loginRole) => {
-    context('GET login auth token', () => {
+    context('POST method login auth token', () => {
         const pwd = AES.encrypt(passWord, 'cms').toString();
         const payload = {
             method: 'POST',
@@ -57,11 +57,7 @@ Cypress.Commands.add("loginApi", (userName, passWord, loginRole) => {
         };
         cy.request(payload).then((res) => {
             expect(res.status).eq(201);
-            const accessToken = res.body.data.token;
             window.localStorage.setItem('authToken', res.body.data.token);
-            //window.localStorage.setItem('authToken',JSON.stringify(accessToken));
-            cy.saveLocalStorage('authToken');
-            console.log("Token in Commands: " + window.localStorage.getItem('authToken'));
         });
     })
 });

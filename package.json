@@ -1,5 +1,7 @@
 {
   "devDependencies": {
+    "@argos-ci/cli": "^0.2.5",
+    "@argos-ci/cypress": "^0.0.5",
     "@percy/cli": "^1.12.0",
     "@percy/cypress": "^3.1.2",
     "@types/lodash": "^4.14.186",
